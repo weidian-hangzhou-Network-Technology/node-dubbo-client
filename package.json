@@ -1,0 +1,38 @@
+{
+  "name": "node-dubbo-client",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": ">=6.9.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://MarvinWilliam@github.com/MarvinWilliam/node-dubbo-client.git"
+  },
+  "homepage": "https://github.com/MarvinWilliam/node-dubbo-client#readme",
+  "bugs": {
+    "url": "https://github.com/MarvinWilliam/node-dubbo-client/issues"
+  },
+  "keywords": [
+    "dubbo",
+    "zookeeper",
+    "hessian",
+    "jsonrpc"
+  ],
+  "author": "marvinwilliam",
+  "license": "ISC",
+  "dependencies": {
+    "ajv": "^4.10.4",
+    "node-zookeeper-client": "^0.2.2",
+    "request": "^2.79.0"
+  },
+  "devDependencies": {
+    "bluebird": "^3.4.7",
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  }
+}
