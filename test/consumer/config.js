@@ -196,6 +196,7 @@ describe('config init', () => {
             retries: 0,
           },
         },
+        debug: false,
         loadBalance: 'round',
       });
     });

@@ -27,6 +27,7 @@
   "license": "ISC",
   "dependencies": {
     "ajv": "^4.10.4",
+    "hessian.js": "^2.2.1",
     "node-zookeeper-client": "^0.2.2",
     "request": "^2.79.0"
   },
