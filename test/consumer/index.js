@@ -19,12 +19,48 @@ dubbo.init({
   },
 });
 
-describe('service call', () => {
-  it('execute method', (calbak) => {
+describe('service start', () => {
+  it('method check pass', (calbak) => {
     dubbo
       .getService('com.weidian.shop.service.CouponService', 'shop', '1.0.0')
-      .call('selectCouponDetailByHash', 'ghd8fa01bdf649')
+      .check('selectCouponDetailByHash')
+      .then((result) => expect(result).to.be.true)
+      .catch((error) => {
+        console.error(error.message);
+        expect(error).not.to.be.instanceof(Error);
+      })
+      .then(() => calbak());
+  });
+
+  it('method check not pass', (calbak) => {
+    dubbo
+      .getService('com.weidian.shop.service.CouponService', 'shop', '1.0.0')
+      .check('test')
+      .then((result) => expect(result).to.be.false)
+      .catch((error) => {
+        console.error(error.message);
+        expect(error).not.to.be.instanceof(Error);
+      })
+      .then(() => calbak());
+  });
+
+  it('method call', (calbak) => {
+    dubbo
+      .getService('com.weidian.shop.service.CouponService', 'shop', '1.0.0')
+      .call('selectCouponDetailByHash', ['ghd8fa01bdf649'])
       .then((result) => expect(result).to.be.an('object'))
+      .catch((error) => {
+        console.error(error.message);
+        expect(error).not.to.be.instanceof(Error);
+      })
+      .then(() => calbak());
+  });
+});
+
+describe('service close', () => {
+  it('dispose register', (calbak) => {
+    dubbo
+      .dispose()
       .catch((error) => {
         console.error(error.message);
         expect(error).not.to.be.instanceof(Error);
