@@ -1,2 +1,2 @@
 node_modules
-test/consumer/index.js
+test/*/index.js

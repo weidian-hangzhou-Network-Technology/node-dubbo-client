@@ -27,6 +27,8 @@
   "license": "ISC",
   "dependencies": {
     "ajv": "^4.10.4",
+    "body-parser": "^1.16.0",
+    "express": "^4.14.1",
     "node-zookeeper-client": "^0.2.2",
     "request": "^2.79.0"
   },
