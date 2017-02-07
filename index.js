@@ -1,2 +1,2 @@
-exports.consumer = require('./lib/consumer');
-exports.provider = require('./lib/provider');
+exports.Consumer = require('./lib/consumer');
+exports.Provider = require('./lib/provider');

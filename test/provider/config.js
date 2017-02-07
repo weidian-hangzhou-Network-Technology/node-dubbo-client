@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
-const Check = require('../../lib/provider/config/check');
+const configCheck = require('../../lib/common/configCheck');
+const schema = require('../../lib/provider/config/schema.json');
 const deepExtend = require('../../lib/utils/deepExtend');
 
 describe('config check', () => {
@@ -8,6 +9,8 @@ describe('config check', () => {
       description: {
         application: 'test',
         dubbo: 'test',
+        category: 'providers',
+        side: 'provider',
       },
       registry: {
         url: '192.168.0.100:12000',
@@ -16,7 +19,7 @@ describe('config check', () => {
     };
 
     expect(function () {
-      const result = Check(options);
+      const result = configCheck(options, schema);
       expect(result).to.deep.equal(options);
     }).to.not.throw(Error);
   });
@@ -26,6 +29,8 @@ describe('config check', () => {
       description: {
         application: 'test',
         dubbo: 'test',
+        category: 'providers',
+        side: 'provider',
       },
       registry: {
         url: '192.168.0.100:12000',
@@ -33,7 +38,7 @@ describe('config check', () => {
     };
 
     expect(function () {
-      const result = Check(options);
+      const result = configCheck(options, schema);
       expect(result).to.deep.equal(options);
     }).to.not.throw(Error);
   });

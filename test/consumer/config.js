@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
-const Check = require('../../lib/consumer/config/check');
+const configCheck = require('../../lib/common/configCheck');
+const schema = require('../../lib/consumer/config/schema.json');
 const Config = require('../../lib/consumer/config');
 const deepExtend = require('../../lib/utils/deepExtend');
 
@@ -15,7 +16,7 @@ describe('config check', () => {
       },
     };
     expect(function () {
-      const result = Check(options);
+      const result = configCheck(options, schema);
       expect(result).to.deep.equal(options);
     }).to.not.throw(Error);
   });
@@ -28,7 +29,7 @@ describe('config check', () => {
       },
     };
     expect(function () {
-      Check(options);
+      configCheck(options, schema);
     }).to.throw(Error);
   });
 
@@ -48,7 +49,7 @@ describe('config check', () => {
       },
     };
 
-    const result = Check(options);
+    const result = configCheck(options, schema);
     expect(result).to.deep.equal({
       description: {
         application: 'test',
@@ -69,7 +70,7 @@ describe('config check', () => {
         url: '192.168.0.100:12000',
       },
     };
-    const dest = Check(deepExtend({
+    const dest = configCheck(deepExtend({
       dubbo: {
         providerTimeout: 45 * 1000,
         weight: 1,
@@ -82,7 +83,7 @@ describe('config check', () => {
         },
       },
       loadBalance: 'round',
-    }, source));
+    }, source), schema);
 
     expect(dest).to.deep.equal({
       description: {
@@ -120,7 +121,7 @@ describe('config check', () => {
       loadBalance: 'random',
     };
 
-    const dest = Check(deepExtend({
+    const dest = configCheck(deepExtend({
       dubbo: {
         providerTimeout: 45 * 1000,
         weight: 1,
@@ -133,7 +134,7 @@ describe('config check', () => {
         },
       },
       loadBalance: 'round',
-    }, source));
+    }, source), schema);
 
     expect(dest).to.deep.equal({
       description: {
