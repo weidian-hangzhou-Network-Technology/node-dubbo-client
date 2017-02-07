@@ -60,7 +60,7 @@ Provider
 
 ##Document
 ###Consumer
-#####init(options)
+####init(options)
 初始化配置,连接zookeeper.
 **options**
 * description `Object` - 当前实例的相关描述信息
@@ -83,13 +83,13 @@ Provider
 * loadBalance `String` (default: 'round') - 负载方式(round/random)
 * debug `Boolean` (default: false) - 调试模式,控制调试日志的输出
 
-#####setLog(logger)
+####setLog(logger)
 日志输出,默认是console,传入的logger必须实现info,debug,error三个接口.
 
-#####dispose()
+####dispose()
 注销zookeeper
 
-#####getService({serviceName,group,version})
+####getService({serviceName,group,version})
 获取service信息,并返回两个方法call和check.
 * check(methodName) - 用来检测service的某个方法是否存在
 * call(methodName,data) - 调用方法,以promise的方式返回
@@ -98,7 +98,7 @@ Provider
 
 ###Provider
 
-#####init(options)
+####init(options)
 **options**
 * description `Object` - 当前实例的相关描述信息
     * application `String` - 应用名称
@@ -117,16 +117,16 @@ Provider
         * retries `Number` (default: 0) 
 * port `Number` - 当前服务注册端口,非必须,可以在注册服务的时候进行设置.
 
-#####setLog(logger)
+####setLog(logger)
 与Consumer一致
 
-#####dispose()
+####dispose()
 这一步操作会依次进行以下操作:
 * 移除zookeeper上注册的服务
 * 关闭zookeeper连接
 * 关闭web server
 
-#####addProvider(provider)
+####addProvider(provider)
 注册服务到zookeeper,并启动web服务器.
 **provider**
 * serviceName `String` - 服务名称
