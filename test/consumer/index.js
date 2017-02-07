@@ -1,30 +1,30 @@
 const expect = require('chai').expect;
 const dubbo = require('../../lib/consumer');
 
-before(() => {
-  dubbo.init({
-    description: {
-      application: 'weidian',
-      'application.version': '1.0',
-      category: 'consumers',
-      dubbo: 'dubbo_node_client_1.0',
-      side: 'consumer',
-      pid: process.pid,
-      version: '1.0.0',
-    },
-    registry: {
-      url: '192.168.0.110:2181',
-    },
-    dubbo: {
-      providerTimeout: 10,
-    },
-    debug: true,
-  });
-  console.debug = console.log;
-  dubbo.setLog(console);
-});
-
 describe('consumer', () => {
+  before(() => {
+    console.debug = console.log;
+    dubbo.setLog(console);
+    return dubbo.init({
+      description: {
+        application: 'weidian',
+        'application.version': '1.0',
+        category: 'consumers',
+        dubbo: 'dubbo_node_client_1.0',
+        side: 'consumer',
+        pid: process.pid,
+        version: '1.0.0',
+      },
+      registry: {
+        url: '192.168.0.110:2181',
+      },
+      dubbo: {
+        providerTimeout: 10,
+      },
+      debug: true,
+    });
+  });
+
   it('method check pass', (calbak) => {
     dubbo
       .getService({ serviceName: 'com.weidian.shop.service.CouponService', group: 'shop', version: '1.0.0' })
@@ -60,9 +60,7 @@ describe('consumer', () => {
       })
       .then(() => calbak());
   });
-});
 
-describe('consumer dispose', () => {
   it('dispose register', (calbak) => {
     dubbo
       .dispose()

@@ -183,6 +183,8 @@ describe('config init', () => {
           dubbo: 'test',
           application: 'node-dubbo-client',
           'application.version': '1.0.0',
+          side: 'consumer',
+          category: 'consumers',
         },
         dubbo: {
           providerTimeout: 45 * 1000,

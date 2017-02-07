@@ -8,9 +8,7 @@ describe('provider to consumer', () => {
       description: {
         application: 'test',
         'application.version': '1.0',
-        category: 'providers',
         dubbo: 'dubbo_node_client_1.0',
-        side: 'provider',
         pid: process.pid,
         version: '1.0.0',
       },
@@ -25,9 +23,7 @@ describe('provider to consumer', () => {
       description: {
         application: 'test',
         'application.version': '1.0',
-        category: 'consumers',
         dubbo: 'dubbo_node_client_1.0',
-        side: 'consumer',
         pid: process.pid,
         version: '1.0.0',
       },
