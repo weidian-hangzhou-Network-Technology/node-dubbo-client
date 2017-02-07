@@ -61,7 +61,6 @@ Provider
 ##Document
 ###Consumer
 ####init(options)
-初始化配置,连接zookeeper.
 **options**
 * description `Object` - 当前实例的相关描述信息
     * application `String` - 应用名称
