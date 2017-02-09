@@ -90,7 +90,9 @@ Provider
 
 ####getService({serviceName,group,version})
 获取service信息,并返回两个方法call和check.
-* check(methodName) - 用来检测service的某个方法是否存在
+* checkMethod(methodName) - 检测service的某个方法是否存在
+* checkService() - 检测service是否有可用的提供者在线
+* check(methodName) - checkMethod和checkService的复合调用
 * call(methodName,data) - 调用方法,以promise的方式返回
     * methodName `String`
     * data `Array` - 数据需要以数组的方式传入,必须与provider方定义的参数顺序一致

@@ -25,7 +25,7 @@ describe('consumer', () => {
     });
   });
 
-  it('method check pass', (calbak) => {
+  it('service check pass', () =>
     dubbo
       .getService({ serviceName: 'com.weidian.shop.service.CouponService', group: 'shop', version: '1.0.0' })
       .check('selectCouponDetailByHash')
@@ -34,10 +34,9 @@ describe('consumer', () => {
         console.error(error.message);
         expect(error).not.to.be.instanceof(Error);
       })
-      .then(() => calbak());
-  });
+  );
 
-  it('method check not pass', (calbak) => {
+  it('service check not pass', () =>
     dubbo
       .getService({ serviceName: 'com.weidian.shop.service.CouponService', group: 'shop', version: '1.0.0' })
       .check('test')
@@ -46,10 +45,23 @@ describe('consumer', () => {
         console.error(error.message);
         expect(error).not.to.be.instanceof(Error);
       })
-      .then(() => calbak());
-  });
+  );
 
-  it('method call', (calbak) => {
+  it('service check', () =>
+    dubbo
+      .getService({ serviceName: 'com.weidian.shop.service.CouponService', group: 'shop', version: '1.0.0' })
+      .checkService()
+      .then((result) => expect(result).to.be.true)
+  );
+
+  it('method check', () =>
+    dubbo
+      .getService({ serviceName: 'com.weidian.shop.service.CouponService', group: 'shop', version: '1.0.0' })
+      .checkMethod('selectCouponDetailByHash')
+      .then((result) => expect(result).to.be.true)
+  );
+
+  it('method call', () =>
     dubbo
       .getService({ serviceName: 'com.weidian.shop.service.CouponService', group: 'shop', version: '1.0.0' })
       .call('selectCouponDetailByHash', ['ghd8fa01bdf649'])
@@ -58,16 +70,14 @@ describe('consumer', () => {
         console.error(error.message);
         expect(error).not.to.be.instanceof(Error);
       })
-      .then(() => calbak());
-  });
+  );
 
-  it('dispose register', (calbak) => {
+  it('dispose register', () =>
     dubbo
       .dispose()
       .catch((error) => {
         console.error(error.message);
         expect(error).not.to.be.instanceof(Error);
       })
-      .then(() => calbak());
-  });
+  );
 });
