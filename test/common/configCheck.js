@@ -14,11 +14,8 @@ const testSchema = {
 
 describe('common.configCheck', () => {
   it('configCheck should throw error', () => {
-    try {
+    expect(function () {
       configCheck({ id: '123' }, testSchema);
-    } catch (e) {
-      console.log(e);
-      expect(e.message).to.be.a('string');
-    }
+    }).to.throw(Error);
   });
 });
