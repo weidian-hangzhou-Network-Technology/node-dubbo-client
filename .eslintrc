@@ -1,0 +1,43 @@
+{
+    "root": true,
+    "parserOptions": {
+        "ecmaVersion": 6
+    },
+    "env": {
+        "node": true
+    },
+    "extends": "airbnb-base",
+    "rules": {
+        "arrow-parens": [
+            "error",
+            "always",
+            {
+                "requireForBlockBody": true
+            }
+        ],
+        "consistent-return": "off",
+        "no-plusplus": "off",
+        "no-useless-escape": "off",
+        "no-nested-ternary": "off",
+        "no-else-return": "off",
+        "global-require": "off",
+        "import/no-dynamic-require": "off",
+        "no-param-reassign": 0,
+        "max-len": [
+            "error",
+            150,
+            2,
+            {
+                "ignoreUrls": true,
+                "ignoreComments": false,
+                "ignoreRegExpLiterals": true,
+                "ignoreStrings": true,
+                "ignoreTemplateLiterals": true
+            }
+        ],
+        "radix": [
+            "error",
+            "as-needed"
+        ]
+    }
+}
