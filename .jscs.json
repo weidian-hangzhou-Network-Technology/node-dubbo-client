@@ -1,6 +1,0 @@
-{
-    "preset": "airbnb",
-    "maxErrors": -1,
-    "excludeFiles": [],
-    "maximumLineLength": 150
-}
