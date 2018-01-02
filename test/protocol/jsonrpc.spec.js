@@ -48,11 +48,11 @@ describe('protocol.jsonrpc', () => {
     it('responsed with string can not convert into object should reject with error', () => {
       requestStub.callsArgWith(1, undefined, { statusCode: 200 }, 'this is a string');
       return expect(jsonrpc.request({}, 'test', 'testService', 'testMethod'))
-        .to.be.rejectedWith(Error, 'provider test responsed with data that is not json string. this is a string');
+        .to.be.rejectedWith(Error, 'provider test responsed with "this is a string"');
     });
 
     it('responsed data contain error property should reject with error', () => {
-      requestStub.callsArgWith(1, undefined, { statusCode: 200 }, jsonrpc.response({}, new Error('test error')));
+      requestStub.callsArgWith(1, undefined, { statusCode: 200 }, JSON.parse(jsonrpc.response({}, new Error('test error'))));
       return expect(jsonrpc.request({}, 'test', 'testService', 'testMethod'))
         .to.be.rejectedWith(Error, 'provider test responsed with error: "test error"');
     });
@@ -61,7 +61,7 @@ describe('protocol.jsonrpc', () => {
       const data = {
         test: 1,
       };
-      requestStub.callsArgWith(1, undefined, { statusCode: 200 }, jsonrpc.response(data));
+      requestStub.callsArgWith(1, undefined, { statusCode: 200 }, JSON.parse(jsonrpc.response(data)));
       return expect(jsonrpc.request({}, 'test', 'testService', 'testMethod'))
         .to.eventually.be.deep.equal(data);
     });

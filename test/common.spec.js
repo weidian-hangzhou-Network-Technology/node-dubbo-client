@@ -17,7 +17,7 @@ describe('common', () => {
 
     it('setupPath should create path object', () => {
       const test = new InvokerBase();
-      test.serviceName = 'service';
+      test.service = 'service';
       test.group = 'group';
       test.version = 'version';
       test.setupPath();
@@ -30,7 +30,7 @@ describe('common', () => {
 
     it('toString should return serviceDescription', () => {
       const test = new InvokerBase();
-      test.serviceName = 'service';
+      test.service = 'service';
       test.group = 'group';
       test.version = 'version';
       expect(test.toString()).to.be.equal('service_group_version');

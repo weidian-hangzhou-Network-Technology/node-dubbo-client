@@ -7,9 +7,11 @@ exports.config = (options) => {
   return registry.init(config.getRegistry());
 };
 
-exports.dispose = registry.dispose;
+exports.dispose = () => registry.dispose();
 
-exports.setLogger = logHelper.setLogger;
+exports.onLog = (calbak) => {
+  logHelper.setLogger(calbak);
+};
 
 exports.consumer = require('./lib/consumer');
 

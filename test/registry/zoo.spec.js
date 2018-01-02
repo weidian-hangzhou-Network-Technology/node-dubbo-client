@@ -117,7 +117,7 @@ describe('registry.zoo', () => {
         return zoo
           .createPath('path', 'fullpath')
           .then(() => {
-            expect(existsStub).to.have.been.calledOnce;
+            expect(existsStub).to.have.been.calledTwice;
             expect(mkdirpStub).to.have.been.calledTwice;
           });
       });
@@ -128,7 +128,7 @@ describe('registry.zoo', () => {
         existsStub.callsArgWith(1, new Error('exists test'));
 
         return expect(zoo.createPath('path', 'fullpath'))
-          .to.be.rejectedWith(Error, 'Registry:register path does not exist. exists test');
+          .to.be.rejectedWith(Error, 'Registry:createPath fail. \npath:path fullpath:fullpath\nmsg:exists test');
       });
 
       it('zoo mkdirp path calbak with error should rejected with error', () => {
@@ -138,7 +138,7 @@ describe('registry.zoo', () => {
         mkdirpStub.withArgs('path').callsArgWith(2, new Error('mkdirp test'));
 
         return expect(zoo.createPath('path', 'fullpath'))
-          .to.be.rejectedWith(Error, 'Registry:mkdirp fail. msg:mkdirp test path:path');
+          .to.be.rejectedWith(Error, 'Registry:createPath fail. \npath:path fullpath:fullpath\nmsg:mkdirp test');
       });
 
       it('zoo mkdirp fullpath calbak with error should rejected with error', () => {
@@ -149,7 +149,7 @@ describe('registry.zoo', () => {
         mkdirpStub.withArgs('fullpath').callsArgWith(2, new Error('mkdirp test'));
 
         return expect(zoo.createPath('path', 'fullpath'))
-          .to.be.rejectedWith(Error, 'Registry:mkdirp fail. msg:mkdirp test path:fullpath');
+          .to.be.rejectedWith(Error, 'Registry:createPath fail. \npath:path fullpath:fullpath\nmsg:mkdirp test');
       });
     });
 
@@ -170,7 +170,7 @@ describe('registry.zoo', () => {
         const zoo = new ZOO(zooConfig);
         removeStub.callsArgWith(1, new Error('remove test'));
         return expect(zoo.removePath('fullpath'))
-          .to.be.rejectedWith(Error, 'Registry:remove invoker fail. msg:remove test path:fullpath');
+          .to.be.rejectedWith(Error, 'Registry:remove invoker fail.\nfullpath:fullpath\nmsg:remove test');
       });
     });
 
