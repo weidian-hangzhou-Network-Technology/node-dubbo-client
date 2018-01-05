@@ -20,9 +20,6 @@
         },
         "pid": {
           "type": "number"
-        },
-        "version": {
-          "type": "string"
         }
       }
     },

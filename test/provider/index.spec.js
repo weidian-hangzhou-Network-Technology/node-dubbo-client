@@ -25,7 +25,7 @@ describe('provider', () => {
   };
 
   beforeEach(() => {
-    Provider._instances = [];
+    Provider.instances = null;
 
     Object.keys(serverStubs).forEach((key) => {
       serverStubs[key].reset();

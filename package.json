@@ -3,13 +3,14 @@
   "version": "0.3.4",
   "author": "marvinwilliam",
   "license": "MIT",
-  "description": "",
+  "description": "node dubbo consumer/provider ",
   "main": "index.js",
   "engines": {
     "node": ">=6.x"
   },
   "scripts": {
-    "lint": "eslint --ext .js"
+    "lint": "eslint --ext .js .",
+    "test": "mocha --ui bdd test/**/*.spec.js"
   },
   "repository": "git+https://MarvinWilliam@github.com/MarvinWilliam/node-dubbo-client.git",
   "homepage": "https://github.com/MarvinWilliam/node-dubbo-client#readme",

@@ -108,11 +108,10 @@ describe('provider.invoker', () => {
 
   describe('dispose', () => {
     context('init have not been called', () => {
-      it('should throw error', () => {
+      it('returned without error', () => {
+        registryStubs.dispose.resolves();
         const invoker = new Invoker(commonServiceInfo);
-        expect(() => {
-          invoker.dispose();
-        }).to.throw(Error);
+        expect(invoker.dispose()).to.be.fulfilled;
       });
     });
 
