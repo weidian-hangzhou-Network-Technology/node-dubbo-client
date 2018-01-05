@@ -1,40 +1,49 @@
 {
-    "name": "node-dubbo-client",
-    "version": "0.3.4",
-    "author": "marvinwilliam",
-    "license": "MIT",
-    "description": "",
-    "main": "index.js",
-    "engines": {
-        "node": ">=6.x"
-    },
-    "scripts": {
-        "lint": "eslint --ext .js lib"
-    },
-    "repository": "git+https://MarvinWilliam@github.com/MarvinWilliam/node-dubbo-client.git",
-    "homepage": "https://github.com/MarvinWilliam/node-dubbo-client#readme",
-    "bugs": {
-        "url": "https://github.com/MarvinWilliam/node-dubbo-client/issues"
-    },
-    "keywords": [
-        "dubbo",
-        "zookeeper",
-        "jsonrpc",
-        "provider",
-        "consumer"
-    ],
-    "dependencies": {
-        "ajv": "^4.10.4",
-        "body-parser": "^1.16.0",
-        "express": "^4.14.1",
-        "node-zookeeper-client": "^0.2.2",
-        "request": "^2.79.0"
-    },
-    "devDependencies": {
-        "chai": "^3.5.0",
-        "eslint": "^3.18.0",
-        "eslint-config-airbnb-base": "^11.1.1",
-        "eslint-plugin-import": "^2.2.0",
-        "mocha": "^3.2.0"
-    }
+  "name": "node-dubbo-client",
+  "version": "0.3.4",
+  "author": "marvinwilliam",
+  "license": "MIT",
+  "description": "node dubbo consumer/provider ",
+  "main": "index.js",
+  "engines": {
+    "node": ">=6.x"
+  },
+  "scripts": {
+    "lint": "eslint --ext .js .",
+    "test": "mocha --ui bdd test/**/*.spec.js"
+  },
+  "repository": "git+https://MarvinWilliam@github.com/MarvinWilliam/node-dubbo-client.git",
+  "homepage": "https://github.com/MarvinWilliam/node-dubbo-client#readme",
+  "bugs": {
+    "url": "https://github.com/MarvinWilliam/node-dubbo-client/issues"
+  },
+  "keywords": [
+    "dubbo",
+    "zookeeper",
+    "jsonrpc",
+    "provider",
+    "consumer"
+  ],
+  "dependencies": {
+    "ajv": "^5.3.0",
+    "debug": "^3.1.0",
+    "node-zookeeper-client": "^0.2.2",
+    "raw-body": "^2.3.2",
+    "request": "^2.83.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.10",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/sinon": "^4.1.2",
+    "@types/sinon-chai": "^2.7.29",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^4.10.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "mocha": "^4.0.1",
+    "proxyquire": "^1.8.0",
+    "sinon": "^4.1.2",
+    "sinon-chai": "^2.14.0"
+  }
 }
