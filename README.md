@@ -1,6 +1,8 @@
 # node-dubbo-client
 [![Build Status](https://travis-ci.org/MarvinWilliam/node-dubbo-client.svg?branch=master)](https://travis-ci.org/MarvinWilliam/node-dubbo-client)
-[![]()]()
+[![codecov](https://codecov.io/gh/MarvinWilliam/node-dubbo-client/branch/master/graph/badge.svg)](https://codecov.io/gh/MarvinWilliam/node-dubbo-client)
+
+[![NPM](https://nodei.co/npm/node-dubbo-client.png)](https://nodei.co/npm/node-dubbo-client/)
 
 ## Installation
 ```npm

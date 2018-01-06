@@ -10,7 +10,7 @@
   },
   "scripts": {
     "lint": "eslint --ext .js .",
-    "test": "mocha --recursive test && npm lint",
+    "test": "mocha --recursive test && npm run lint",
     "cover": "istanbul cover ./node_modules/mocha/bin/_mocha -- --recursive test"
   },
   "repository": "git+https://MarvinWilliam@github.com/MarvinWilliam/node-dubbo-client.git",
