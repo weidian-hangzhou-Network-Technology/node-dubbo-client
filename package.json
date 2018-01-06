@@ -10,7 +10,8 @@
   },
   "scripts": {
     "lint": "eslint --ext .js .",
-    "test": "mocha --ui bdd test/**/*.spec.js"
+    "test": "mocha --recursive test && npm lint",
+    "cover": "istanbul cover ./node_modules/mocha/bin/_mocha -- --recursive test"
   },
   "repository": "git+https://MarvinWilliam@github.com/MarvinWilliam/node-dubbo-client.git",
   "homepage": "https://github.com/MarvinWilliam/node-dubbo-client#readme",
@@ -41,6 +42,7 @@
     "eslint": "^4.10.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
+    "istanbul": "^0.4.5",
     "mocha": "^4.0.1",
     "proxyquire": "^1.8.0",
     "sinon": "^4.1.2",

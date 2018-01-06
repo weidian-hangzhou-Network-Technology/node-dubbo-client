@@ -55,6 +55,21 @@ describe('utils', () => {
   });
 
   describe('deepExtend', () => {
+    it('call without arg should return undefined', () => {
+      expect(deepExtend()).to.be.undefined;
+    });
+
+    it('call with one arg should return with arg', () => {
+      const obj = {};
+      expect(deepExtend(obj)).to.be.equal(obj);
+    });
+
+    it('if extended obj is not object, do nothing', () => {
+      const obj = {};
+      expect(deepExtend(obj, [])).to.be.equal(obj);
+      expect(deepExtend(obj, '')).to.be.equal(obj);
+    });
+
     it('result object should have nested properties', () => {
       const source = {
         a: {
@@ -66,6 +81,40 @@ describe('utils', () => {
       deepExtend(source, { a: { d: 3 }, e: 4 });
       expect(source.a).to.be.deep.equal({ b: 1, d: 3 });
       expect(source).to.have.property('e');
+    });
+
+    context('deepCloneArray', () => {
+      it('object array', () => {
+        const obj = { a: [{ b: 1 }] };
+        expect(deepExtend({}, obj)).to.be.deep.equal(obj);
+      });
+
+      it('null array', () => {
+        const obj = { a: [null] };
+        expect(deepExtend({}, obj)).to.be.deep.equal(obj);
+      });
+
+      it('array array', () => {
+        const obj = { a: [[{ b: 1 }]] };
+        expect(deepExtend({}, obj)).to.be.deep.equal(obj);
+      });
+
+      it('specific array', () => {
+        const obj = { a: [new Date()] };
+        expect(deepExtend({}, obj)).to.be.deep.equal(obj);
+      });
+    });
+
+    context('cloneSpecificValue', () => {
+      it('Buffer', () => {
+        const obj = { a: Buffer.alloc(10) };
+        expect(deepExtend({}, obj)).to.be.deep.equal(obj);
+      });
+
+      it('RegExp', () => {
+        const obj = { a: /123/ };
+        expect(deepExtend({}, obj)).to.be.deep.equal(obj);
+      });
     });
   });
 

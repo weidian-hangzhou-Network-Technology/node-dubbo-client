@@ -1,4 +1,6 @@
 # node-dubbo-client
+[![Build Status](https://travis-ci.org/MarvinWilliam/node-dubbo-client.svg?branch=master)](https://travis-ci.org/MarvinWilliam/node-dubbo-client)
+[![]()]()
 
 ## Installation
 ```npm

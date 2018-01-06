@@ -54,5 +54,9 @@ describe('config', () => {
     it('getLoadBalance', () => {
       expect(config.getLoadBalance()).to.be.equal('round');
     });
+
+    it('debug', () => {
+      expect(config.debug()).to.be.equal(false);
+    });
   });
 });

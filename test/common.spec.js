@@ -51,5 +51,11 @@ describe('common', () => {
       logHelper.getLogger('test')('456');
       expect(spy).to.have.been.calledWith('[test] 456');
     });
+
+    it('call setLogger without arg should throw error', () => {
+      expect(() => {
+        logHelper.setLogger();
+      }).to.throw(Error);
+    });
   });
 });
