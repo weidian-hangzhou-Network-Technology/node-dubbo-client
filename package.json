@@ -1,6 +1,6 @@
 {
   "name": "node-dubbo-client",
-  "version": "0.3.4",
+  "version": "1.0.0",
   "author": "marvinwilliam",
   "license": "MIT",
   "description": "node dubbo consumer/provider ",
