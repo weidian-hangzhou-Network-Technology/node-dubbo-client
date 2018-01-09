@@ -42,7 +42,7 @@ describe('config', () => {
     it('getDubboConfig', () => {
       expect(config.getDubboConfig()).to.be.deep.equal({
         timeout: 45 * 1000,
-        keepAlive: true,
+        keepAlive: false,
         protocol: 'jsonrpc',
       });
     });
