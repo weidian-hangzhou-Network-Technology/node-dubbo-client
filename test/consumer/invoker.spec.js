@@ -77,6 +77,15 @@ describe('consumer.invoker', () => {
       expect(invoker.providers.size).to.be.equal(2);
     });
 
+    it('provider should be ignored, if version does not match', () => {
+      const invoker = new Invoker(commonServiceInfo);
+      expect(invoker.providers.size).to.be.equal(0);
+      invoker._setProviders([
+        'jsonrpc%3A%2F%2F127.0.0.1%3A10000%2FtestService%3Fdefault.group%3DtestGroup%26default.version%3D2.0.0%26interface%3DtestService%26methods%3Dtest%26server%3Dnode%26side%3Dprovider%26category%3Dproviders',
+      ]);
+      expect(invoker.providers.size).to.be.equal(0);
+    });
+
     it('wrong version provider should be ignored', () => {
       const invoker = new Invoker(commonServiceInfo);
 
@@ -126,6 +135,20 @@ describe('consumer.invoker', () => {
       expect(invoker.providers.size).to.be.equal(1);
       invoker._configProviders([]);
       expect(invoker.providers.size).to.be.equal(0);
+    });
+
+    it('if provider version does not match config version, config should ignore', () => {
+      const invoker = new Invoker(commonServiceInfo);
+      invoker._setProviders([
+        'jsonrpc%3A%2F%2F127.0.0.1%3A10000%2FtestService%3Fdefault.group%3DtestGroup%26default.version%3D1.0.0%26interface%3DtestService%26methods%3Dtest%26server%3Dnode%26side%3Dprovider%26category%3Dproviders',
+      ]);
+      invoker._configProviders([
+        'override%3A%2F%2F127.0.0.1%3A10000%2FtestService%3Fcategory%3Dconfigurators%26disabled%3Dtrue%26dynamic%3Dfalse%26enabled%3Dtrue%26group%3DtestGroup%26version%3D2.0.0'
+      ]);
+      expect(invoker.providers.size).to.be.equal(1);
+      const provider = [...invoker.providers.values()][0];
+      expect(provider.disabled).to.be.false;
+      expect(provider.enabled).to.be.true;
     });
 
     it('if provider exist, provider config should be overrided by config info', () => {
