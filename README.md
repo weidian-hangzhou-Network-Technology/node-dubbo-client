@@ -55,8 +55,7 @@ dubbo
     * dubbo `string` - dubbo版本
     * pid `number` - 进程Id
 * dubbo `object` - service配置
-    * providerTimeout `number` (default: 45 * 1000) - 订阅者调用超时时间
-    * weight `number` (default: 100) 服务默认权重
+    * timeout `number` (default: 45 * 1000) - 订阅者调用超时时间
 * registry `object`
     * url `string` (required)
     * options `object` - [node-zookeeper-client options](https://github.com/alexguan/node-zookeeper-client#client-createclientconnectionstring-options)
