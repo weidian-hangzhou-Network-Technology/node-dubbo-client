@@ -44,6 +44,7 @@ describe('config', () => {
         timeout: 45 * 1000,
         keepAlive: false,
         protocol: 'jsonrpc',
+        enableRetry: true,
       });
     });
 
