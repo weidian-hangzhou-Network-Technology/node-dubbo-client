@@ -55,7 +55,8 @@ dubbo
     * dubbo `string` - dubbo版本
     * pid `number` - 进程Id
 * dubbo `object` - service配置
-    * timeout `number` (default: 45 * 1000) - 订阅者调用超时时间
+    * timeout `number` (default: 45 * 1000) - 服务提供者调用超时时间
+    * enableRetry `boolean` (default: true) - 自动重试,服务提供者返回ECONNREFUSED,下线该提供者并重试
 * registry `object`
     * url `string` (required)
     * options `object` - [node-zookeeper-client options](https://github.com/alexguan/node-zookeeper-client#client-createclientconnectionstring-options)

@@ -270,6 +270,34 @@ describe('consumer.invoker', () => {
     });
   });
 
+  describe('disableProvider', () => {
+    it('invoker should not be valid if it has been disabled', () => {
+      const invoker = new Invoker(commonServiceInfo);
+      invoker._setProviders([
+        'jsonrpc%3A%2F%2F127.0.0.1%3A10000%2FtestService%3Fdefault.group%3DtestGroup%26default.version%3D1.0.0%26interface%3DtestService%26methods%3Dtest%26server%3Dnode%26side%3Dprovider%26category%3Dproviders',
+      ]);
+      const providers = invoker._getValidProviders('jsonrpc');
+      expect(providers).to.have.lengthOf(1);
+      invoker.disableProvider('127.0.0.1:10000');
+      expect(invoker._getValidProviders('jsonrpc')).to.have.lengthOf(0);
+    });
+
+    it('provider register after disabled should be valid', () => {
+      const invoker = new Invoker(commonServiceInfo);
+      invoker._setProviders([
+        'jsonrpc%3A%2F%2F127.0.0.1%3A10000%2FtestService%3Fdefault.group%3DtestGroup%26default.version%3D1.0.0%26interface%3DtestService%26methods%3Dtest%26server%3Dnode%26side%3Dprovider%26category%3Dproviders',
+      ]);
+      expect(invoker.providers.size).to.be.equal(1);
+      invoker.disableProvider('127.0.0.1:10000');
+      expect(invoker._getValidProviders('jsonrpc')).to.have.lengthOf(0);
+      invoker._setProviders([
+        'jsonrpc%3A%2F%2F127.0.0.1%3A10000%2FtestService%3Fdefault.group%3DtestGroup%26default.version%3D1.0.0%26interface%3DtestService%26methods%3Dtest%26server%3Dnode%26side%3Dprovider%26category%3Dproviders',
+      ]);
+      expect(invoker.providers.size).to.be.equal(1);
+      expect(invoker._getValidProviders('jsonrpc')).to.have.lengthOf(1);
+    });
+  });
+
   describe('init', () => {
     it('invoker set config should be called after event emit', (done) => {
       const setSpy = sinon.spy();
