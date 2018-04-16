@@ -1,6 +1,10 @@
+*~
+.DS_Store/
+.idea/
 coverage/
 node_modules
 test
 .editorconfig
 .eslintignore
 .eslintrc
+npm-debug.log

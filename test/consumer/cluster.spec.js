@@ -18,8 +18,8 @@ describe('consumer.cluster', () => {
 
   describe('random', () => {
     it('should return provider given', () => {
-      const provider1 = { weight: 1 };
-      const provider2 = { weight: 2 };
+      const provider1 = { getWeight: () => 1 };
+      const provider2 = { getWeight: () => 2 };
       const result = [];
       (new Array(100).fill('')).forEach(() => {
         result.push(random([provider1, provider2]));
