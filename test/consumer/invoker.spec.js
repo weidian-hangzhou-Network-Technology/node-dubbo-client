@@ -104,13 +104,13 @@ describe('consumer.invoker', () => {
         'jsonrpc%3A%2F%2F127.0.0.1%3A10000%2FtestService%3Fdefault.group%3DtestGroup%26default.version%3D1.0.0%26interface%3DtestService%26methods%3Dtest%26server%3Dnode%26side%3Dprovider%26category%3Dproviders',
       ]);
 
-      const methods = [...invoker.providers.values()][0].methods;
+      const methods = [...invoker.providers.values()][0].baseInfo.methods;
 
       invoker._setProviders([
         'jsonrpc%3A%2F%2F127.0.0.1%3A10000%2FtestService%3Fdefault.group%3DtestGroup%26default.version%3D1.0.0%26interface%3DtestService%26methods%3Dtest%2Ctest1%26server%3Dnode%26side%3Dprovider%26category%3Dproviders',
       ]);
 
-      const updatedMethods = [...invoker.providers.values()][0].methods;
+      const updatedMethods = [...invoker.providers.values()][0].baseInfo.methods;
       expect(invoker.providers.size).to.be.equal(1);
       expect(updatedMethods).to.not.be.equal(methods);
       expect(updatedMethods).to.have.lengthOf(2);
@@ -147,8 +147,7 @@ describe('consumer.invoker', () => {
       ]);
       expect(invoker.providers.size).to.be.equal(1);
       const provider = [...invoker.providers.values()][0];
-      expect(provider.disabled).to.be.false;
-      expect(provider.enabled).to.be.true;
+      expect(provider.configs).to.be.null;
     });
 
     it('if provider exist, provider config should be overrided by config info', () => {
@@ -158,16 +157,16 @@ describe('consumer.invoker', () => {
       ]);
 
       const provider = [...invoker.providers.values()][0];
-      expect(provider.disabled).to.be.false;
-      expect(provider.enabled).to.be.true;
+      expect(provider.configs).to.be.null;
+      expect(provider.canUse()).to.be.true;
 
       invoker._configProviders([
         'override%3A%2F%2F127.0.0.1%3A10000%2FtestService%3Fcategory%3Dconfigurators%26disabled%3Dtrue%26dynamic%3Dfalse%26enabled%3Dfalse%26group%3DtestGroup%26version%3D1.0.0'
       ]);
 
       expect(invoker.providers.size).to.be.equal(1);
-      expect(provider.disabled).to.be.true;
-      expect(provider.enabled).to.be.false;
+      expect(provider.configs).to.not.be.null;
+      expect(provider.canUse()).to.be.false;
     });
 
     it('create provider with config info, should keep config properties after provider set', () => {
@@ -183,9 +182,9 @@ describe('consumer.invoker', () => {
       const provider = [...invoker.providers.values()][0];
 
       expect(invoker.providers.size).to.be.equal(1);
-      expect(provider.enabled).to.be.true;
-      expect(provider.disabled).to.be.true;
-      expect(provider.protocol).to.be.equal('jsonrpc');
+      expect(provider.configs).to.not.be.null;
+      expect(provider.canUse()).to.be.false;
+      expect(provider.baseInfo).to.not.be.null;
     });
 
     it('configed provider should resume config properties if config list is empty', () => {
@@ -199,10 +198,10 @@ describe('consumer.invoker', () => {
 
       const provider = [...invoker.providers.values()][0];
 
-      expect(provider.disabled).to.be.true;
+      expect(provider.canUse()).to.be.false;
       invoker._configProviders([]);
-      expect(provider.disabled).to.be.false;
-      expect(provider.enabled).to.be.true;
+      expect(provider.canUse()).to.be.true;
+      expect(provider.configs).to.be.null;
     });
 
     it('provider should resume if provider is not list in config list', () => {
@@ -239,7 +238,7 @@ describe('consumer.invoker', () => {
 
       const providers = invoker._getValidProviders('jsonrpc');
       expect(providers).to.have.lengthOf(1);
-      expect(providers[0].protocol).to.be.equal('jsonrpc');
+      expect(providers[0].getProtocol()).to.be.equal('jsonrpc');
     });
 
     it('disabled provider should not returned', () => {

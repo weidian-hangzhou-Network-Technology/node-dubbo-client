@@ -35,15 +35,21 @@ describe('consumer.provider', () => {
   }));
 
   it('create provider with provider string', () => {
-    const provider = new Provider(providerUrl1);
+    const provider = new Provider(providerUrl1.host);
+    provider.init(providerUrl1);
     const result = {
-      enabled: true,
-      disabled: false,
+      configs: null,
+      baseInfo: {
+        dubbo: {
+          'application.version': '1.0.0',
+          'default.group': 'testGroup',
+          interface: 'testService',
+          methods: 'm1,m2',
+        },
+        protocol: 'jsonrpc',
+        methods: ['m1', 'm2'],
+      },
       host: '0.0.0.0:1234',
-      hostname: '0.0.0.0',
-      port: '1234',
-      protocol: 'jsonrpc',
-      methods: ['m1', 'm2'],
     };
     Object.keys(result).forEach((key) => {
       expect(provider[key]).to.be.deep.equal(result[key]);
@@ -51,100 +57,71 @@ describe('consumer.provider', () => {
   });
 
   it('create provider with config string', () => {
-    const provider = new Provider(configUrl1);
+    const provider = new Provider(configUrl1.host);
+    provider.setup(configUrl1);
     const result = {
-      enabled: false,
-      disabled: true,
-      weight: 100,
+      configs: {
+        enabled: false,
+        disabled: true,
+        weight: 100,
+      },
       host: '0.0.0.0:1234',
-      hostname: '0.0.0.0',
-      port: '1234',
-      protocol: 'override',
-      methods: [],
+      baseInfo: null,
     };
     Object.keys(result).forEach((key) => {
       expect(provider[key]).to.be.deep.equal(result[key]);
     });
   });
 
-  it('override config-url to provider', () => {
-    const provider = new Provider(providerUrl1);
-    provider.config(configUrl1);
-    const result = {
+  it('config should be override by new config info', () => {
+    const provider = new Provider(configUrl1.host);
+    provider.setup(configUrl1);
+    expect(provider.configs).to.be.deep.equal({
       enabled: false,
       disabled: true,
       weight: 100,
-      host: '0.0.0.0:1234',
-      hostname: '0.0.0.0',
-      port: '1234',
-      protocol: 'jsonrpc',
-      methods: ['m1', 'm2'],
-    };
-    Object.keys(result).forEach((key) => {
-      expect(provider[key]).to.be.deep.equal(result[key]);
     });
-  });
-
-  it('merge provider-url to config-provider', () => {
-    const provider = new Provider(configUrl1);
-    provider.config(providerUrl1);
-    const result = {
-      enabled: false,
-      disabled: true,
-      weight: 100,
-      host: '0.0.0.0:1234',
-      hostname: '0.0.0.0',
-      port: '1234',
-      protocol: 'jsonrpc',
-      methods: ['m1', 'm2'],
-    };
-    Object.keys(result).forEach((key) => {
-      expect(provider[key]).to.be.deep.equal(result[key]);
-    });
-  });
-
-  it('override config-url to config-provider should use new config properties', () => {
-    const provider = new Provider(configUrl1);
-    provider.config(configUrl2);
-    const result = {
+    provider.setup(configUrl2);
+    expect(provider.configs).to.be.deep.equal({
       enabled: true,
       disabled: true,
       weight: 200,
-      host: '0.0.0.0:1234',
-      hostname: '0.0.0.0',
-      port: '1234',
-      protocol: 'override',
-      methods: [],
-    };
-    Object.keys(result).forEach((key) => {
-      expect(provider[key]).to.be.deep.equal(result[key]);
+    });
+  });
+
+  context('getWeight', () => {
+    it('if weight is not set, get default value', () => {
+      const provider = new Provider(providerUrl1.host);
+      provider.init(providerUrl1);
+      expect(provider.getWeight()).to.be.equal(100);
+    });
+
+    it('if weight is configed, get configed value', () => {
+      const provider = new Provider(configUrl2.host);
+      provider.setup(configUrl2);
+      expect(provider.getWeight()).to.be.equal(200);
     });
   });
 
   context('hasMethod', () => {
     it('provider should return true or false', () => {
-      const provider = new Provider(providerUrl1);
+      const provider = new Provider(providerUrl1.host);
+      provider.init(providerUrl1);
       expect(provider.hasMethod('m1')).to.be.true;
       expect(provider.hasMethod('m3')).to.be.false;
     });
   });
 
-  context('resume', () => {
-    it('config-provider properties should be changed', () => {
-      const provider = new Provider(configUrl1);
-      provider.resume();
-      expect(provider.canUse()).to.be.true;
-    });
-  });
-
   context('canUse', () => {
     it('config-provider should return false', () => {
-      const provider = new Provider(configUrl1);
+      const provider = new Provider(configUrl1.host);
+      provider.setup(configUrl1);
       expect(provider.canUse()).to.be.false;
     });
 
     it('provider should return true', () => {
-      const provider = new Provider(providerUrl1);
+      const provider = new Provider(providerUrl1.host);
+      provider.setup(providerUrl1);
       expect(provider.canUse()).to.be.true;
     });
   });
