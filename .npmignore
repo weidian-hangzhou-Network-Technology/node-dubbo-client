@@ -8,3 +8,4 @@ test
 .eslintignore
 .eslintrc
 npm-debug.log
+yarn-error.log
