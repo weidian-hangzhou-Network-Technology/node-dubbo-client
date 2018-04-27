@@ -40,9 +40,21 @@ describe('consumer', () => {
   });
 
   context('invoker call', () => {
+    it('if method not exist should throw error', () => {
+      invokerStub.returns({ getProviders: () => Promise.resolve([1]) });
+      clusterStub.returns({
+        host: 'test',
+        hasMethod: () => false,
+      });
+      return expect(consumer.getService(commonServiceInfo(2)).call('testMethod')).to.be.rejectedWith();
+    });
+
     it('call once if request success', () => {
       invokerStub.returns({ getProviders: () => Promise.resolve([1]) });
-      clusterStub.returns({ host: 'test' });
+      clusterStub.returns({
+        host: 'test',
+        hasMethod: () => true,
+      });
       requestStub.resolves();
       return consumer
         .getService(commonServiceInfo(2))
@@ -53,7 +65,10 @@ describe('consumer', () => {
     });
     it('call once if request throw normal error', () => {
       invokerStub.returns({ getProviders: () => Promise.resolve([1]) });
-      clusterStub.returns({ host: 'test' });
+      clusterStub.returns({
+        host: 'test',
+        hasMethod: () => true,
+      });
       requestStub.rejects(new Error('test'));
       return consumer
         .getService(commonServiceInfo(3))
@@ -68,7 +83,10 @@ describe('consumer', () => {
         getProviders: () => Promise.resolve([1]),
         disableProvider: stub,
       });
-      clusterStub.returns({ host: 'test' });
+      clusterStub.returns({
+        host: 'test',
+        hasMethod: () => true,
+      });
       const e = new Error('test');
       e.code = 'ECONNREFUSED';
       requestStub.onCall(0).rejects(e);
