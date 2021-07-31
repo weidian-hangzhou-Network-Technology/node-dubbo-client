@@ -24,6 +24,7 @@ describe('config', () => {
       config.setOptions({
         registry: {
           url: 'test',
+          registryType: 'zookeeper'
         },
       });
     });
@@ -31,6 +32,7 @@ describe('config', () => {
     it('getRegistry', () => {
       expect(config.getRegistry()).to.be.deep.equal({
         url: 'test',
+        registryType: 'zookeeper',
         options: {
           sessionTimeout: 30 * 1000,
           spinDelay: 1000,

@@ -47,9 +47,15 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "url"
+        "url", "registryType"
       ],
       "properties": {
+        "registryType": {
+          "enum": ["zookeeper", "nacos"]
+        },
+        "namespace": {
+          "type": "string"
+        },
         "url": {
           "type": "string"
         },

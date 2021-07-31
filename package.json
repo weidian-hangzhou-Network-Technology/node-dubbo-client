@@ -30,6 +30,7 @@
     "ajv": "^5.3.0",
     "debug": "^3.1.0",
     "deep-extend": "^0.5.0",
+    "nacos": "^2.1.1",
     "node-zookeeper-client": "^0.2.2",
     "raw-body": "^2.3.2",
     "request": "^2.83.0"
