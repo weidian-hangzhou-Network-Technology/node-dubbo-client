@@ -90,7 +90,7 @@ describe('registry', () => {
 
       it('publish before init should throw error', () => {
         expect(() => {
-          registry.publish({ path:'path', fullPath: 'fullpath' });
+          registry.publish({ path:'path', fullPath: 'fullPath' });
         }).to.throw(Error);
       });
 

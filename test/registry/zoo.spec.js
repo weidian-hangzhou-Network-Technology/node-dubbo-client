@@ -115,7 +115,7 @@ describe('registry.zoo', () => {
         mkdirpStub.callsArg(2);
 
         return zoo
-          .createPath('path', 'fullpath')
+          .createPath('path', 'fullPath')
           .then(() => {
             expect(existsStub).to.have.been.calledTwice;
             expect(mkdirpStub).to.have.been.calledTwice;
@@ -127,8 +127,8 @@ describe('registry.zoo', () => {
         const zoo = new ZOO(zooConfig);
         existsStub.callsArgWith(1, new Error('exists test'));
 
-        return expect(zoo.createPath('path', 'fullpath'))
-          .to.be.rejectedWith(Error, 'Registry:createPath fail. \npath:path fullpath:fullpath\nmsg:exists test');
+        return expect(zoo.createPath('path', 'fullPath'))
+          .to.be.rejectedWith(Error, 'Registry:createPath fail. \npath:path fullPath:fullPath\nmsg:exists test');
       });
 
       it('zoo mkdirp path calbak with error should rejected with error', () => {
@@ -137,19 +137,19 @@ describe('registry.zoo', () => {
         existsStub.callsArg(1);
         mkdirpStub.withArgs('path').callsArgWith(2, new Error('mkdirp test'));
 
-        return expect(zoo.createPath('path', 'fullpath'))
-          .to.be.rejectedWith(Error, 'Registry:createPath fail. \npath:path fullpath:fullpath\nmsg:mkdirp test');
+        return expect(zoo.createPath('path', 'fullPath'))
+          .to.be.rejectedWith(Error, 'Registry:createPath fail. \npath:path fullPath:fullPath\nmsg:mkdirp test');
       });
 
-      it('zoo mkdirp fullpath calbak with error should rejected with error', () => {
+      it('zoo mkdirp fullPath calbak with error should rejected with error', () => {
         setStub();
         const zoo = new ZOO(zooConfig);
         existsStub.callsArg(1);
         mkdirpStub.withArgs('path').callsArgWith(2);
-        mkdirpStub.withArgs('fullpath').callsArgWith(2, new Error('mkdirp test'));
+        mkdirpStub.withArgs('fullPath').callsArgWith(2, new Error('mkdirp test'));
 
-        return expect(zoo.createPath('path', 'fullpath'))
-          .to.be.rejectedWith(Error, 'Registry:createPath fail. \npath:path fullpath:fullpath\nmsg:mkdirp test');
+        return expect(zoo.createPath('path', 'fullPath'))
+          .to.be.rejectedWith(Error, 'Registry:createPath fail. \npath:path fullPath:fullPath\nmsg:mkdirp test');
       });
     });
 
@@ -159,9 +159,9 @@ describe('registry.zoo', () => {
         const zoo = new ZOO(zooConfig);
         removeStub.callsArg(1);
         return zoo
-          .removePath('fullpath')
+          .removePath({ fullPath: 'fullPath' })
           .then(() => {
-            expect(removeStub).to.have.been.calledWith('fullpath');
+            expect(removeStub).to.have.been.calledWith('fullPath');
           });
       });
 
@@ -169,8 +169,8 @@ describe('registry.zoo', () => {
         setStub();
         const zoo = new ZOO(zooConfig);
         removeStub.callsArgWith(1, new Error('remove test'));
-        return expect(zoo.removePath('fullpath'))
-          .to.be.rejectedWith(Error, 'Registry:remove invoker fail.\nfullpath:fullpath\nmsg:remove test');
+        return expect(zoo.removePath({ fullPath: 'fullPath' }))
+          .to.be.rejectedWith(Error, 'Registry:remove invoker fail.\nfullpath:fullPath\nmsg:remove test');
       });
     });
 
