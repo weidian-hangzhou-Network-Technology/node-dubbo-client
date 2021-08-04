@@ -7,6 +7,7 @@ const expect = chai.expect;
 const InvokerBase = require('../lib/common/invokerBase');
 const debug = require('debug');
 const logHelper = require('../lib/common/logHelper');
+const registry = require('../lib/registry');
 
 describe('common', () => {
   describe('invokerBase', () => {
@@ -20,7 +21,7 @@ describe('common', () => {
       test.service = 'service';
       test.group = 'group';
       test.version = 'version';
-      test.setupPath();
+      test.setupPath(registry.getRegistryPath);
       expect(test.path).to.be.deep.equal({
         configurator: '/dubbo/service/configurators',
         provider: '/dubbo/service/providers',

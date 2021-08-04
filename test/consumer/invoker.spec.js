@@ -301,7 +301,7 @@ describe('consumer.invoker', () => {
     it('invoker set config should be called after event emit', (done) => {
       const setSpy = sinon.spy();
       const configSpy = sinon.spy();
-      registryStubs.subscribe.callsFake((path) => {
+      registryStubs.subscribe.callsFake(({ path }) => {
         registryStubs.emit(registryEVENTS.SUBSCRIBE(path), []);
       });
       const invoker = new Invoker(commonServiceInfo);
@@ -318,7 +318,7 @@ describe('consumer.invoker', () => {
     it('getProviders should return after invoker inited', (done) => {
       const invoker = new Invoker(commonServiceInfo);
       const configSubscribeSpy = sinon.spy();
-      registryStubs.subscribe.callsFake((path) => {
+      registryStubs.subscribe.callsFake(({ path }) => {
         registryStubs.emit(registryEVENTS.SUBSCRIBE(path), []);
         if (path === invoker.path.configurator) {
           configSubscribeSpy();

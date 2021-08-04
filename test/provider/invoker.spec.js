@@ -101,8 +101,9 @@ describe('provider.invoker', () => {
       expect(registryStubs.publish).to.have.been.called;
       const args = registryStubs.publish.args[0];
       console.log(args);
-      expect(args[0]).to.be.a('string');
-      expect(args[1]).to.be.a('string');
+      expect(args[0]).to.be.a('object');
+      expect(args[0].path).to.be.a('string');
+      expect(args[0].fullPath).to.be.a('string');
     });
   });
 

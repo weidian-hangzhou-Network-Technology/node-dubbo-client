@@ -11,9 +11,11 @@ const registry = require('../../lib/registry');
 /**
  * @type ZooConfig
  */
-const zooConfig = { url: '127.0.0.1:9999', options: {} };
+const zooConfig = { url: '127.0.0.1:9999', options: {}, registryType: 'zookeeper' };
 
 const getRandomName = (str) => `${str}${Math.floor(Math.random() * 1000000)}`;
+
+// TODO update test case
 
 describe('registry', () => {
   const zooStub = sinon.stub(Zoo, 'createInstance');
@@ -53,7 +55,7 @@ describe('registry', () => {
 
       return registry
         .init(zooConfig)
-        .then(() => expect(registry.remove('testFullpath')).to.be.fulfilled);
+        .then(() => expect(registry.remove({ fullPath: 'testFullpath' })).to.be.fulfilled);
     });
 
     it('dispose', () => {
@@ -73,10 +75,14 @@ describe('registry', () => {
 
     describe('publish', () => {
       const createPathStub = sinon.stub();
+      const publishStub = sinon.stub();
+      
       const setPublishStub = () => {
         zooStub.callsFake(() => {
           const emitter = new EventEmitter();
           emitter.createPath = createPathStub;
+          emitter.publish = publishStub;
+          
           process.nextTick(() => {
             emitter.emit('init');
           });
@@ -86,12 +92,15 @@ describe('registry', () => {
 
       beforeEach(() => {
         createPathStub.reset();
+        publishStub.reset();
       });
 
       it('publish before init should throw error', () => {
-        expect(() => {
-          registry.publish('path', 'fullpath');
-        }).to.throw(Error);
+        registry.ready = false;
+        registry.publish({ path:'path', fullPath: 'fullPath' })
+          .catch((err) => {
+            expect(err.message).to.be.equal('client has not ready.');
+          });
       });
 
       it('emit success event after publish success', (done) => {
@@ -103,7 +112,7 @@ describe('registry', () => {
           .then(() => {
             const eventSpy = sinon.spy();
             registry.on(registry.EVENTS.PUBLISH(pathName), eventSpy);
-            registry.publish(pathName, `full${pathName}`);
+            registry.publish({ path: pathName, fullPath: `full${pathName}` });
             setTimeout(() => {
               expect(eventSpy).to.have.been.calledOnce;
               done();
@@ -123,17 +132,19 @@ describe('registry', () => {
               expect(err.message).to.be.equal('path fail');
               done();
             });
-            registry.publish(pathName, `full${pathName}`);
+            registry.publish({ path: pathName,  fullPath: `full${pathName}` }).then(done);
           });
       });
     });
 
     describe('subscribe', () => {
       const getClientStub = sinon.stub();
+      const subscribeStub = sinon.stub();
       const setSubscribeStub = () => {
         zooStub.callsFake(() => {
           const emitter = new EventEmitter();
           emitter.getClient = getClientStub;
+          emitter.subscribe = subscribeStub;
           process.nextTick(() => {
             emitter.emit('init');
           });
@@ -143,11 +154,13 @@ describe('registry', () => {
 
       beforeEach(() => {
         getClientStub.reset();
+        subscribeStub.reset();
       });
 
       it('subscribe before init should throw error', () => {
         expect(() => {
-          registry.subscribe('path');
+          registry.ready = false;
+          registry.subscribe({ path: 'path' });
         }).to.throw(Error);
       });
 
@@ -163,7 +176,7 @@ describe('registry', () => {
               expect(err.message).to.be.equal('getClient error');
               done();
             });
-            registry.subscribe(pathName);
+            registry.subscribe({ path: pathName });
           });
       });
 
@@ -182,7 +195,7 @@ describe('registry', () => {
                 expect(err.message).to.be.equal('getChildren error');
                 done();
               });
-              registry.subscribe(pathName);
+              registry.subscribe({ path: pathName });
             });
         });
 
@@ -201,7 +214,7 @@ describe('registry', () => {
                 expect(data).to.be.deep.equal(childrens);
                 done();
               });
-              registry.subscribe(pathName);
+              registry.subscribe({ path: pathName });
             });
         });
 
@@ -228,7 +241,7 @@ describe('registry', () => {
             .then(() => {
               registry.on(registry.EVENTS.SUBSCRIBE(pathName), eventSubscribeStub);
               registry.on(registry.EVENTS.ERROR(pathName), eventErrorSpy);
-              registry.subscribe(pathName);
+              registry.subscribe({ path: pathName });
               setTimeout(() => {
                 expect(eventSubscribeStub).to.have.been.calledOnce;
                 expect(eventErrorSpy).to.have.been.calledAfter(eventSubscribeStub);
@@ -259,7 +272,7 @@ describe('registry', () => {
             .init(zooConfig)
             .then(() => {
               registry.on(registry.EVENTS.SUBSCRIBE(pathName), eventSubscribeStub);
-              registry.subscribe(pathName);
+              registry.subscribe({ path: pathName });
               setTimeout(() => {
                 expect(eventSubscribeStub).to.have.been.calledTwice;
                 expect(eventSubscribeStub.args[0]).to.be.deep.equal([childrens1]);
