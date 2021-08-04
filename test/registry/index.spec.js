@@ -15,6 +15,8 @@ const zooConfig = { url: '127.0.0.1:9999', options: {}, registryType: 'zookeeper
 
 const getRandomName = (str) => `${str}${Math.floor(Math.random() * 1000000)}`;
 
+// TODO update test case
+
 describe('registry', () => {
   const zooStub = sinon.stub(Zoo, 'createInstance');
 
@@ -73,10 +75,14 @@ describe('registry', () => {
 
     describe('publish', () => {
       const createPathStub = sinon.stub();
+      const publishStub = sinon.stub();
+      
       const setPublishStub = () => {
         zooStub.callsFake(() => {
           const emitter = new EventEmitter();
           emitter.createPath = createPathStub;
+          emitter.publish = publishStub;
+          
           process.nextTick(() => {
             emitter.emit('init');
           });
@@ -86,12 +92,15 @@ describe('registry', () => {
 
       beforeEach(() => {
         createPathStub.reset();
+        publishStub.reset();
       });
 
       it('publish before init should throw error', () => {
-        expect(() => {
-          registry.publish({ path:'path', fullPath: 'fullPath' });
-        }).to.throw(Error);
+        registry.ready = false;
+        registry.publish({ path:'path', fullPath: 'fullPath' })
+          .catch((err) => {
+            expect(err.message).to.be.equal('client has not ready.');
+          });
       });
 
       it('emit success event after publish success', (done) => {
@@ -123,17 +132,19 @@ describe('registry', () => {
               expect(err.message).to.be.equal('path fail');
               done();
             });
-            registry.publish({ path: pathName,  fullPath: `full${pathName}` });
+            registry.publish({ path: pathName,  fullPath: `full${pathName}` }).then(done);
           });
       });
     });
 
     describe('subscribe', () => {
       const getClientStub = sinon.stub();
+      const subscribeStub = sinon.stub();
       const setSubscribeStub = () => {
         zooStub.callsFake(() => {
           const emitter = new EventEmitter();
           emitter.getClient = getClientStub;
+          emitter.subscribe = subscribeStub;
           process.nextTick(() => {
             emitter.emit('init');
           });
@@ -143,10 +154,12 @@ describe('registry', () => {
 
       beforeEach(() => {
         getClientStub.reset();
+        subscribeStub.reset();
       });
 
       it('subscribe before init should throw error', () => {
         expect(() => {
+          registry.ready = false;
           registry.subscribe({ path: 'path' });
         }).to.throw(Error);
       });
