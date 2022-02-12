@@ -27,7 +27,7 @@
     "consumer"
   ],
   "dependencies": {
-    "ajv": "^5.3.0",
+    "ajv": "^6.12.3",
     "debug": "^3.1.0",
     "deep-extend": "^0.5.0",
     "nacos": "^2.1.1",
